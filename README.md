@@ -6,7 +6,13 @@ This is the starter project for the final workshop in the WDCC series, where we 
 
 We have created a Gist for this workshop, available at:
 
-- TODO LINK HERE
+- <https://gist.github.com/andrew-meads/a54c6ed628e7794fced4e58feb152469>
+
+You can also checkout a branch with the completed version of this project, using:
+
+```bash
+git checkout steps/complete
+```
 
 ## Setup and links
 
