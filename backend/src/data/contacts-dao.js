@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
-import { createInitialContacts } from "./initial-contacts.js";
+import { initialContacts } from "./initial-contacts.js";
 
-const contacts = await createInitialContacts();
+const contacts = [...initialContacts];
 
 /**
  * Retrieves all contacts from the database.

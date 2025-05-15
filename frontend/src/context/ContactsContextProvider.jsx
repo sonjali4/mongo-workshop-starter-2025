@@ -1,17 +1,13 @@
-import { useState, useEffect } from "react";
-import {
-  apiCreateContact,
-  apiRetrieveContacts,
-  apiUpdateContact,
-  apiDeleteContact
-} from "../api/api.js";
+import { useContext, createContext, useState, useEffect } from "react";
+import * as api from "../api/api.js";
 
-/**
- * Gets the CRUD Contacts service.
- *
- * @returns contacts, info about whether the contacts are loading, and functions to add, edit and delete them.
- */
+const ContactsContext = createContext();
+
 export function useContacts() {
+  return useContext(ContactsContext);
+}
+
+export default function ContactsContextProvider({ children }) {
   const [contacts, setContacts] = useState([]);
   const [selectedContact, setSelectedContact] = useState(null);
   const [isLoadingContacts, setIsLoadingContacts] = useState(false);
@@ -21,7 +17,7 @@ export function useContacts() {
    */
   async function fetchContacts() {
     setIsLoadingContacts(true);
-    const data = await apiRetrieveContacts();
+    const data = await api.retrieveContacts();
     setContacts(data);
     setIsLoadingContacts(false);
     setSelectedContact(data[0]);
@@ -43,19 +39,17 @@ export function useContacts() {
   /**
    * Adds a new contact. Uses optimistic updates - assumes the server operation will succeed;
    * rolls back if not.
-   * @param {string} name the new contact's name
-   * @param {string} phoneNumber the new contact's phone number
-   * @param {string} funFact a fun fact about the new contact
+   * @param {{name: string, phoneNumber: string, photoUrl: string, funFact: string}} contact the new contact
    */
-  async function addContact(name, phoneNumber, funFact) {
+  async function addContact(contact) {
     // Optimistically update local state
     const tempContacts = contacts;
-    setContacts([...contacts, { name, phoneNumber, funFact }]);
+    setContacts([...contacts, contact]);
 
     try {
       // Send the new contact to the server with a POST, then update our state
       // with the returned contact (which will now include its _id).
-      const newContact = await apiCreateContact(name, phoneNumber, funFact);
+      const newContact = await api.createContact(contact);
       const updatedContacts = [...tempContacts, newContact];
       setContacts(updatedContacts);
       setSelectedContact(newContact);
@@ -81,7 +75,7 @@ export function useContacts() {
 
     try {
       // Send DELETE to the server
-      await apiDeleteContact(id);
+      await api.deleteContact(id);
     } catch (err) {
       // On any server error, rollback.
       setContacts(tempContacts);
@@ -109,7 +103,7 @@ export function useContacts() {
 
     try {
       // Send the contact PATCH to the server
-      await apiUpdateContact(contact);
+      await api.updateContact(contact);
     } catch (err) {
       // On any server error, rollback.
       setContacts(tempContacts);
@@ -117,7 +111,7 @@ export function useContacts() {
     }
   }
 
-  return {
+  const context = {
     contacts,
     selectedContact,
     setSelectedContact,
@@ -126,4 +120,6 @@ export function useContacts() {
     deleteContact,
     editContact
   };
+
+  return <ContactsContext.Provider value={context}>{children}</ContactsContext.Provider>;
 }

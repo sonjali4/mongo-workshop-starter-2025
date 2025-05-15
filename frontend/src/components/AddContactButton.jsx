@@ -1,12 +1,9 @@
-import styles from "./AddContactCard.module.css";
-
-/* eslint-disable react/prop-types */
 /**
  * A card / link to appear on the sidebar. When clicked, will allow users to add contacts.
  */
-export default function AddContactCard({ onClick }) {
+export default function AddContactButton({ onClick }) {
   return (
-    <div className={styles.button} onClick={onClick}>
+    <button className="add-contact-button" onClick={onClick}>
       {/* Icon */}
       <svg
         width="50px"
@@ -24,7 +21,7 @@ export default function AddContactCard({ onClick }) {
         />
       </svg>
       {/* Text */}
-      <h2>Add a Friend</h2>
-    </div>
+      Add a Friend
+    </button>
   );
 }

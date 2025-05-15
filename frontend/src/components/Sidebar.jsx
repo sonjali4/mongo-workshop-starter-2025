@@ -1,20 +1,15 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
-import ContactCard from "./ContactCard";
-import styles from "./Sidebar.module.css";
-import AddContactCard from "./AddContactCard";
+import ContactListItem from "./ContactListItem";
+import AddContactButton from "./AddContactButton";
+import { useContacts } from "../context/ContactsContextProvider";
 
 /**
  * A sidebar with links to view each contact, or add new contacts.
  *
  * The contacts list can be filtered by name.
  */
-export default function Sidebar({
-  contacts,
-  selectedContact,
-  onContactClicked,
-  onAddContactClicked
-}) {
+export default function Sidebar({ onAddContactClicked }) {
+  const { contacts, selectedContact, setSelectedContact } = useContacts();
   const [searchTerm, setSearchTerm] = useState("");
 
   // Function to filter contacts based on search term
@@ -23,27 +18,31 @@ export default function Sidebar({
   });
 
   return (
-    <nav className={styles.sidebar}>
-      <div className={styles.corner}>
+    <nav className="side-bar">
+      {/* Search box */}
+      <header>
         <h2>Friends</h2>
-        <input
-          className={styles.searchbar}
-          type="text"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      <div className={styles.contactList}>
-        {filteredContacts.map((contact) => (
-          <ContactCard
-            key={contact._id}
-            contact={contact}
-            isActive={contact === selectedContact}
-            onContactClicked={onContactClicked}
-          />
-        ))}
-      </div>
-      <AddContactCard onClick={onAddContactClicked} />
+        <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+      </header>
+
+      {/* List of contacts */}
+      <section>
+        <ul>
+          {filteredContacts.map((contact) => (
+            <ContactListItem
+              key={contact._id}
+              contact={contact}
+              isActive={contact === selectedContact}
+              onContactClicked={setSelectedContact}
+            />
+          ))}
+        </ul>
+      </section>
+
+      {/* Add contact button */}
+      <footer>
+        <AddContactButton onClick={onAddContactClicked} />
+      </footer>
     </nav>
   );
 }

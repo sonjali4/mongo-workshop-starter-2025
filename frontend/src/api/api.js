@@ -1,50 +1,51 @@
-const BASE_URL = "http://localhost:3000/api";
-const CONTACTS_URL = `${BASE_URL}/contacts`;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 /**
  * Sends a POST request to the server to create a new contact.
  *
- * @param {string} name the new contact's name
- * @param {string} phoneNumber the new contact's phone number
- * @param {string} funFact a fun fact about the new contact
+ * @param {*} contact the new contact
  *
  * @returns a promise which will either resolve to the new contact object returned by the server,
  *          or will reject with the response object if a response outside the 200-299 range is returned.
  */
-export const apiCreateContact = (name, phoneNumber, funFact) =>
-  fetch(CONTACTS_URL, {
+export async function createContact(contact) {
+  const response = await fetch(BASE_URL, {
     method: "POST",
-    body: JSON.stringify({
-      name,
-      phoneNumber,
-      funFact
-    }),
+    body: JSON.stringify(contact),
     headers: { "content-type": "application/json" }
-  })
-    .then(throwIfNotOk)
-    .then((r) => r.json());
+  });
+
+  if (response.ok) return await response.json();
+  throw { response };
+}
 
 /**
  * Sends a GET request to the server to get all contacts.
  *
  * @returns a promise which will resolve to an array of all contact info on the server.
  */
-export const apiRetrieveContacts = () => fetch(CONTACTS_URL).then((response) => response.json());
+export async function retrieveContacts() {
+  const response = await fetch(BASE_URL);
+  return await response.json();
+}
 
 /**
  * Sends a PATCH request to the server to update a contact.
  *
- * @param contact the contact to update
+ * @param {*} contact the contact to update
  *
  * @returns a promise which will either resolve if the update was successful, or reject with the
  *          response object if a response object outside the 200-299 range is returned.
  */
-export const apiUpdateContact = (contact) =>
-  fetch(`${CONTACTS_URL}/${contact._id}`, {
+export async function updateContact(contact) {
+  console.log("apiUpdateContact", contact);
+  const response = await fetch(`${BASE_URL}/${contact._id}`, {
     method: "PATCH",
     body: JSON.stringify(contact),
     headers: { "content-type": "application/json" }
-  }).then(throwIfNotOk);
+  });
+  if (!response.ok) throw { response };
+}
 
 /**
  * Sends a DELETE request to the server to delete a contact.
@@ -54,20 +55,9 @@ export const apiUpdateContact = (contact) =>
  * @returns a promise which will either resolve if the deletion was successful, or reject with the
  *          response object if a response object outside the 200-299 range is returned.
  */
-export const apiDeleteContact = (id) =>
-  fetch(`${CONTACTS_URL}/${id}`, {
+export async function deleteContact(id) {
+  const response = await fetch(`${BASE_URL}/${id}`, {
     method: "DELETE"
-  }).then(throwIfNotOk);
-
-/**
- * A helper function which will either throw or return the given response, depending on the value
- * of its "ok" prop.
- *
- * @param response An HTTP response, from a resolved fetch() call
- * @returns the response object itself, if its ok property is truthy
- * @throws the response object itself, if its ok property is falsy
- */
-function throwIfNotOk(response) {
-  if (!response.ok) throw response;
-  return response;
+  });
+  if (!response.ok) throw { response };
 }

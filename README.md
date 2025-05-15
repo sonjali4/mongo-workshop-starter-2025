@@ -6,7 +6,7 @@ This is the starter project for the final workshop in the WDCC series, where we 
 
 We have created a Gist for this workshop, available at:
 
-- <https://gist.github.com/andrew-meads/f90769e707424a28f0d10c44068afb79>
+- TODO LINK HERE
 
 ## Setup and links
 
@@ -16,9 +16,15 @@ Before we get started with the workshop itself, we'll make sure we have all the 
 
 - [MongoDB](https://www.mongodb.com/)
 
-  - [MongoDB Compass](https://www.mongodb.com/products/tools/compass): you'll need this installed.
+  - [MongoDB Compass](https://www.mongodb.com/products/tools/compass): you'll need this installed, to browse your database.
 
-  - [MongoDB Community Server](https://www.mongodb.com/products/self-managed/community-edition): you'll need this installed.
+  - [MongoDB Community Server](https://www.mongodb.com/products/self-managed/community-edition): you'll _optionally_ need this installed, if you want a local copy of your database. You _can_ just use Atlas though, if you want to _(see below)_.
+
+    - As an alternative to MongoDB Community Server, another way of getting a local database running is to use [Docker](https://www.docker.com/). Once Docker is installed and running, then you can use a command like:
+
+      ```bash
+      docker run -p 27017:27017 -v wdcc-mongo-volume:/data/db mongo:latest
+      ```
 
   - [Atlas cloud database](https://www.mongodb.com/atlas): You'll need an account here. You should easily be able to get one with an existing Gmail or GitHub account.
 
