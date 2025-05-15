@@ -34,7 +34,7 @@ Before we get started with the workshop itself, we'll make sure we have all the 
 
   - [Atlas cloud database](https://www.mongodb.com/atlas): You'll need an account here. You should easily be able to get one with an existing Gmail or GitHub account.
 
-- [Digital Ocean](https://www.digitalocean.com/): You'll need an account here. You can easily get one with an existing GitHub account. New Digital Ocean accounts get $200 in free credits for the first 60 days.
+- [Render](https://render.com/): You'll need an account here. You can easily get one with an existing GitHub account. This has a free tier which is sufficient to deploy both our backend and frontend in today's workshop, and has several cheap options if you want to keep a site running long-term.
 
 ## Docs
 
