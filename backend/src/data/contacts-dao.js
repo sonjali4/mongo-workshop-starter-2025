@@ -51,7 +51,7 @@ export async function updateContact(id, contact) {
 
   contacts[index] = { ...contacts[index], ...contact };
 
-  return true;
+  return contacts[index];
 }
 
 /**
