@@ -4,7 +4,9 @@ This is the starter project for the final workshop in the WDCC series, where we 
 
 **IMPORTANT: You MUST [FORK](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repo - do NOT just clone the WDCC version, or you will not be able to deploy later!** Make your own personal fork, which you'll be able to push to.
 
-We have created a Gist for this workshop, available at:
+We have created Gists for this workshop, available at:
+
+- <https://gist.github.com/andrew-meads/18dd7ce6a478dcab9ddf4706d37d7ef5>
 
 - <https://gist.github.com/andrew-meads/a54c6ed628e7794fced4e58feb152469>
 
