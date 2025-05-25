@@ -26,10 +26,19 @@ router.post("/", async (req, res) => {
     return res.status(201).location(`/contacts/${contact._id}`).json(contact);
   } catch (err) {
     // TODO Error case: Duplicate name
+    if (err.code === 11000) {
+      return res.status(422).send("Contact name must be unique");
+    }
 
     // TODO Error case: Missing name
+    if (err.name === "ValidationError" && err.message.includes("name")) {
+      return res.status(422).send("Contact name is required");
+    }
 
     // TODO Error case: Invalid _id
+    if (err.name === "CastError") {
+      return res.status(422).send("Invalid contact id");
+    }
 
     // Unexpected error
     console.error(err); // For debugging
@@ -52,8 +61,14 @@ router.patch("/:id", async (req, res) => {
     return res.json(updated);
   } catch (err) {
     // TODO Error case: Duplicate name
+    if (err.code === 11000) {
+      return res.status(422).send("Contact name must be unique");
+    }
 
     // TODO Error case: Invalid _id
+    if (err.name === "CastError") {
+      return res.status(422).send("Invalid contact id");
+    }
 
     // Unexpected error
     console.error(err); // For debugging
@@ -73,6 +88,9 @@ router.delete("/:id", async (req, res) => {
     return res.sendStatus(204);
   } catch (err) {
     // TODO Error case: Invalid _id
+    if (err.name === "CastError") {
+      return res.status(422).send("Invalid contact id");
+    }
 
     // Unexpected error
     console.error(err); // For debugging
